@@ -1,0 +1,153 @@
+﻿<Window x:Class="MemoryGameExample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemoryGameExample"
+        mc:Ignorable="d"
+        Name="MainGameWindow" Title="MemoryBlocks" Height="450" Background="LightBlue" Width="450" ResizeMode="CanMinimize">
+    <Grid Name="GameGrid" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Name="Button1" Grid.Column="1" Grid.Row="1" Height="50" Width="50" Command="{Binding Move}" CommandParameter="1">
+            <Image Name="Button1_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button2" Grid.Column="2" Grid.Row="1" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="2">
+            <Image Name="Button2_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button3" Grid.Column="3" Grid.Row="1" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="3">
+            <Image Name="Button3_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button4" Grid.Column="4"  Grid.Row="1" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="4">
+            <Image Name="Button4_Image">
+
+            </Image>
+        </Button>
+
+        <Button Name="Button5" Grid.Column="1" Grid.Row="2" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="5">
+            <Image Name="Button5_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button6" Grid.Column="2"  Grid.Row="2" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="6">
+            <Image Name="Button6_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button7" Grid.Column="3"  Grid.Row="2" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="7">
+            <Image Name="Button7_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button8" Grid.Column="4"  Grid.Row="2" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="8">
+            <Image Name="Button8_Image">
+
+            </Image>
+        </Button>
+
+        <Button Name="Button9" Grid.Column="1" Grid.Row="3" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="9">
+            <Image Name="Button9_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button10" Grid.Column="2" Grid.Row="3" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="10">
+            <Image Name="Button10_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button11" Grid.Column="3" Grid.Row="3" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="11">
+            <Image Name="Button11_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button12" Grid.Column="4" Grid.Row="3" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="12">
+            <Image Name="Button12_Image">
+
+            </Image>
+        </Button>
+
+        <Button Name="Button13" Grid.Column="1" Grid.Row="4"  Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="13">
+            <Image Name="Button13_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button14" Grid.Column="2"  Grid.Row="4" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="14">
+            <Image Name="Button14_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button15" Grid.Column="3" Grid.Row="4" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="15">
+            <Image Name="Button15_Image">
+
+            </Image>
+        </Button>
+        <Button Name="Button16" Grid.Column="4" Grid.Row="4" Height="50" Width="50" Command="{Binding Move, UpdateSourceTrigger=PropertyChanged}" CommandParameter="16">
+            <Image Name="Button16_Image">
+
+            </Image>
+        </Button>
+        <Label Grid.Row="5" Grid.Column="1" Content="Time:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+        <Label Grid.Row="5" Grid.Column="4" Content="Moves:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+        <TextBox Name="Time" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+        <TextBox Name="Moves" Grid.Row="6" Grid.Column="4" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+        <Menu Name="MenuBar" Height="20" VerticalAlignment="Top"  Grid.ColumnSpan="6">
+
+            <Separator>
+                <Separator.LayoutTransform>
+                    <RotateTransform Angle="90" />
+                </Separator.LayoutTransform>
+            </Separator>
+            <MenuItem Header="Game">
+                <MenuItem Header="New Game" InputGestureText="F2" Command="{Binding NewGame,  UpdateSourceTrigger=PropertyChanged}">
+                
+                   
+                    
+                </MenuItem>
+                <MenuItem Header="Highscores" InputGestureText="F4" Command="{Binding Highscores, UpdateSourceTrigger=PropertyChanged}" >
+               
+                </MenuItem>
+                <Separator>
+                 
+                </Separator>
+                <MenuItem Header="Exit" Command="{Binding Exit, UpdateSourceTrigger=PropertyChanged}">
+
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="View Help" InputGestureText="F1" Command="{Binding ViewHelp, UpdateSourceTrigger=PropertyChanged}">
+                 
+                </MenuItem>
+            </MenuItem>
+            
+        </Menu>
+        
+            
+    </Grid>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding ViewHelp, UpdateSourceTrigger=PropertyChanged}" Key="F1"></KeyBinding>
+        <KeyBinding Command="{Binding NewGame, UpdateSourceTrigger=PropertyChanged}" Key="F2"></KeyBinding>
+        <KeyBinding Command="{Binding Highscores, UpdateSourceTrigger=PropertyChanged}" Key="F4"></KeyBinding>
+    </Window.InputBindings>
+</Window>
