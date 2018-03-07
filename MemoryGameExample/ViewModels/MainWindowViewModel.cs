@@ -117,8 +117,9 @@ namespace MemoryGameExample.ViewModels
                         {
                             images[i].Visibility = System.Windows.Visibility.Collapsed;
                             images[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
-
                             twoFieldsOpened = false;
+                            moves++;
+                            mainWindow.Moves.Text = moves.ToString();
 
                         }
                         else
@@ -127,8 +128,9 @@ namespace MemoryGameExample.ViewModels
                             buttons[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
                             images[i].Visibility = System.Windows.Visibility.Collapsed;
                             images[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
-
                             twoFieldsOpened = false;
+                            moves++;
+                            mainWindow.Moves.Text = moves.ToString();
                             if (End())
                             {
                                 Highscores highscore = new Model.Highscores();
@@ -155,8 +157,7 @@ namespace MemoryGameExample.ViewModels
 
                             }
                         }
-                        moves++;
-                        mainWindow.Moves.Text = moves.ToString();
+                      
 
                     }
                 }
