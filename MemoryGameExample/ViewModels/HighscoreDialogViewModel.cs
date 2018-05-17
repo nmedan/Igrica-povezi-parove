@@ -10,6 +10,7 @@ namespace MemoryGameExample.ViewModels
 {
     public class HighscoreDialogViewModel : ViewModelBase
     {
+        const int scoresToShow = 3;
         HighscoreDialog highscoreDialog;
 
 
@@ -24,7 +25,7 @@ namespace MemoryGameExample.ViewModels
                 for (int i = 0; i < highscoresOrdered.Count(); i++)
                 {
                     HighscoresList.Add(highscoresOrdered[i]);
-                    if (i == 2)
+                    if (i == scoresToShow-1)
                     {
                         break;
                     }
@@ -34,6 +35,12 @@ namespace MemoryGameExample.ViewModels
         }
         #endregion
 
+        public IEnumerable<Model.Highscores> GetHighscores ()
+        {
+            using (HighscoresContext db = new HighscoresContext()) {
+                return db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves);
+            }
+        }
         #region properties
         private Highscores highscore;
         public Highscores Highscore

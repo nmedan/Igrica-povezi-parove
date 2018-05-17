@@ -15,6 +15,16 @@ namespace MemoryGameExample.ViewModels
 
     public class MainWindowViewModel : ViewModelBase
     {
+        const int numberOfFields = 16;
+        const int scoresToShow = 3;
+        const int timeDelay = 1000;
+        enum FieldParameters
+        {
+            fieldParameter_1 = 1, fieldParameter_2, fieldParameter_3, fieldParameter_4, fieldParameter_5,
+            fieldParameter_6, fieldParameter_7, fieldParameter_8, fieldParameter_9, fieldParameter_10,
+            fieldParameter_11, fieldParameter_12, fieldParameter_13, fieldParameter_14,
+            fieldParameter_15, fieldParameter_16
+        };
         MainWindow mainWindow;
         bool twoFieldsOpened;
         public DispatcherTimer dispatcherTimer;
@@ -62,8 +72,8 @@ namespace MemoryGameExample.ViewModels
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Tick += new EventHandler(Timer_Tick);
             dispatcherTimer.Start();
-            sources = new BitmapImage[16];
-            sourcesRandomized = new BitmapImage[16];
+            sources = new BitmapImage[numberOfFields];
+            sourcesRandomized = new BitmapImage[numberOfFields];
             paths = new string[] {@"\SlikeMemory\Picture1.png", @"\SlikeMemory\Picture2.png",
             @"\SlikeMemory\Picture3.png", @"\SlikeMemory\Picture4.png", @"\SlikeMemory\Picture5.png",
             @"\SlikeMemory\Picture6.png", @"\SlikeMemory\Picture7.png", @"\SlikeMemory\Picture8.png"};
@@ -73,7 +83,7 @@ namespace MemoryGameExample.ViewModels
             mainWindow.Button15_Image, mainWindow.Button16_Image};
             buttons = new Button[] {mainWindow.Button1, mainWindow.Button2, mainWindow.Button3, mainWindow.Button4, mainWindow.Button5, mainWindow.Button6, mainWindow.Button7,
                 mainWindow.Button8, mainWindow.Button9, mainWindow.Button10, mainWindow.Button11, mainWindow.Button12, mainWindow.Button13, mainWindow.Button14, mainWindow.Button15, mainWindow.Button16};
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < numberOfFields/2; i++)
             {
                 sources[i] = new BitmapImage();
                 sources[i].BeginInit();
@@ -81,7 +91,7 @@ namespace MemoryGameExample.ViewModels
                 sources[i].EndInit();
 
             }
-            for (int i = 8; i < 16; i++)
+            for (int i = numberOfFields/2; i < numberOfFields; i++)
             {
                 sources[i] = new BitmapImage();
                 sources[i].BeginInit();
@@ -105,12 +115,12 @@ namespace MemoryGameExample.ViewModels
             {
                 images[(int)p - 1].Visibility = System.Windows.Visibility.Visible;
 
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < numberOfFields; i++)
                 {
                     if (images[i].Visibility == System.Windows.Visibility.Visible && i != ((int)p - 1))
                     {
                         twoFieldsOpened = true;
-                        Task wait = Task.Delay(1000);
+                        Task wait = Task.Delay(timeDelay);
                         await wait;
 
                         if (!images[i].Source.ToString().Equals(images[(int)p - 1].Source.ToString()))
@@ -139,10 +149,12 @@ namespace MemoryGameExample.ViewModels
                                 highscore.Moves = int.Parse(mainWindow.Moves.Text);
                                 using (HighscoresContext db = new HighscoresContext())
                                 {
-                                    var highscores = db.Highscores.ToList();
-                                    highscores.Add(highscore);
-                                    var highscoresOrdered = highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).ToList();
-                                    if (highscoresOrdered.IndexOf(highscore) <= 2)
+
+                                    db.Highscores.Add(highscore);
+                                    db.SaveChanges();
+                                    var highscoresOrdered = db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).
+                                        Take(scoresToShow).ToList();
+                                    if (highscoresOrdered.Contains(highscore))
                                     {
                                         EnterHighscore eh = new EnterHighscore(highscore);
                                         eh.ShowDialog();
@@ -157,7 +169,7 @@ namespace MemoryGameExample.ViewModels
 
                             }
                         }
-                      
+
 
                     }
                 }
@@ -185,52 +197,52 @@ namespace MemoryGameExample.ViewModels
                 switch (parameter)
                 {
                     case "1":
-                        PlayMove(1);
+                        PlayMove(FieldParameters.fieldParameter_1);
                         break;
                     case "2":
-                        PlayMove(2);
+                        PlayMove(FieldParameters.fieldParameter_2);
                         break;
                     case "3":
-                        PlayMove(3);
+                        PlayMove(FieldParameters.fieldParameter_3);
                         break;
                     case "4":
-                        PlayMove(4);
+                        PlayMove(FieldParameters.fieldParameter_4);
                         break;
                     case "5":
-                        PlayMove(5);
+                        PlayMove(FieldParameters.fieldParameter_5);
                         break;
                     case "6":
-                        PlayMove(6);
+                        PlayMove(FieldParameters.fieldParameter_6);
                         break;
                     case "7":
-                        PlayMove(7);
+                        PlayMove(FieldParameters.fieldParameter_7);
                         break;
                     case "8":
-                        PlayMove(8);
+                        PlayMove(FieldParameters.fieldParameter_8);
                         break;
                     case "9":
-                        PlayMove(9);
+                        PlayMove(FieldParameters.fieldParameter_9);
                         break;
                     case "10":
-                        PlayMove(10);
+                        PlayMove(FieldParameters.fieldParameter_10);
                         break;
                     case "11":
-                        PlayMove(11);
+                        PlayMove(FieldParameters.fieldParameter_11);
                         break;
                     case "12":
-                        PlayMove(12);
+                        PlayMove(FieldParameters.fieldParameter_12);
                         break;
                     case "13":
-                        PlayMove(13);
+                        PlayMove(FieldParameters.fieldParameter_13);
                         break;
                     case "14":
-                        PlayMove(14);
+                        PlayMove(FieldParameters.fieldParameter_14);
                         break;
                     case "15":
-                        PlayMove(15);
+                        PlayMove(FieldParameters.fieldParameter_15);
                         break;
                     case "16":
-                        PlayMove(16);
+                        PlayMove(FieldParameters.fieldParameter_16);
                         break;
                 }
 
@@ -340,7 +352,7 @@ namespace MemoryGameExample.ViewModels
         {
             return true;
         }
-        
+
     }
 }
 #endregion

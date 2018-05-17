@@ -44,7 +44,7 @@ namespace MemoryGameExample.ViewModels
             using (HighscoresContext db = new HighscoresContext())
             {
 
-                db.Highscores.Add(highscore);
+                db.Entry(highscore).State = EntityState.Modified;
                 db.SaveChanges();
                 
             }
