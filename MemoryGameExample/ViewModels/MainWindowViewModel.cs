@@ -149,8 +149,7 @@ namespace MemoryGameExample.ViewModels
                                 highscore.Moves = int.Parse(mainWindow.Moves.Text);
                                 using (HighscoresContext db = new HighscoresContext())
                                 {
-
-                                    db.Highscores.Add(highscore);
+                                    db.Highscores.Add(highscore);                                  
                                     db.SaveChanges();
                                     var highscoresOrdered = db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).
                                         Take(scoresToShow).ToList();
