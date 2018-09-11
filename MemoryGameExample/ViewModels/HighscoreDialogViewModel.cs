@@ -6,41 +6,24 @@ using System.Threading.Tasks;
 using MemoryGameExample.Model;
 using System.Windows.Input;
 using MemoryGameExample.Commands;
+
 namespace MemoryGameExample.ViewModels
 {
     public class HighscoreDialogViewModel : ViewModelBase
     {
         const int scoresToShow = 3;
         HighscoreDialog highscoreDialog;
-
-
         #region constructor
         public HighscoreDialogViewModel(HighscoreDialog HighscoreDialog)
         {
             highscoreDialog = HighscoreDialog;
             using (HighscoresContext db = new HighscoresContext())
             {
-                HighscoresList = new List<Model.Highscores>();
-                var highscoresOrdered = db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).ToList();
-                for (int i = 0; i < highscoresOrdered.Count(); i++)
-                {
-                    HighscoresList.Add(highscoresOrdered[i]);
-                    if (i == scoresToShow-1)
-                    {
-                        break;
-                    }
-                }
+                HighscoresList = db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).Take(3).ToList();
             }
-
         }
         #endregion
 
-        public IEnumerable<Model.Highscores> GetHighscores ()
-        {
-            using (HighscoresContext db = new HighscoresContext()) {
-                return db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves);
-            }
-        }
         #region properties
         private Highscores highscore;
         public Highscores Highscore
@@ -113,21 +96,18 @@ namespace MemoryGameExample.ViewModels
         {
             using (HighscoresContext db = new HighscoresContext())
             {
-
-                  foreach (Highscores hs in db.Highscores)
-                  {
-                      db.Highscores.Remove(hs);
-
-                  }
+                foreach (var score in db.Highscores)
+                {
+                    db.Highscores.Remove(score);
+                }
                 db.SaveChanges();
                 HighscoresList = db.Highscores.ToList();
             }
-
+            
         }
 
         public bool CanResetExecute()
         {
-
             if (HighscoresList.Count > 0)
             {
                 return true;
@@ -137,8 +117,6 @@ namespace MemoryGameExample.ViewModels
                 return false;
             }
         }
-
-
 
     }
 }

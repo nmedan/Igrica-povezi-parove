@@ -141,5 +141,6 @@
     <Resource Include="SlikeMemory\Picture7.png" />
     <Resource Include="SlikeMemory\Picture8.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

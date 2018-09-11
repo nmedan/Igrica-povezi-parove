@@ -7,6 +7,7 @@ using MemoryGameExample.Commands;
 using System.Windows.Input;
 using MemoryGameExample.Model;
 using System.Data.Entity;
+
 namespace MemoryGameExample.ViewModels
 {
     public class EnterHighscoreViewModel : ViewModelBase

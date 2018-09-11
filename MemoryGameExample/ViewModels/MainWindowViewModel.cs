@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using MemoryGameExample.Model;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
+
 namespace MemoryGameExample.ViewModels
 {
 
@@ -45,13 +46,13 @@ namespace MemoryGameExample.ViewModels
         #endregion
 
         #region methods
-        public void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             mainWindow.Time.Text = time.ToString();
             time++;
         }
 
-        public bool End()
+        private bool End()
         {
 
             if (!buttons.Any(x => x.Visibility == System.Windows.Visibility.Visible))
@@ -62,7 +63,7 @@ namespace MemoryGameExample.ViewModels
             return false;
         }
 
-        public void StartGame()
+        private void StartGame()
         {
             time = 0;
             moves = 0;
@@ -83,7 +84,7 @@ namespace MemoryGameExample.ViewModels
             mainWindow.Button15_Image, mainWindow.Button16_Image};
             buttons = new Button[] {mainWindow.Button1, mainWindow.Button2, mainWindow.Button3, mainWindow.Button4, mainWindow.Button5, mainWindow.Button6, mainWindow.Button7,
                 mainWindow.Button8, mainWindow.Button9, mainWindow.Button10, mainWindow.Button11, mainWindow.Button12, mainWindow.Button13, mainWindow.Button14, mainWindow.Button15, mainWindow.Button16};
-            for (int i = 0; i < numberOfFields/2; i++)
+            for (int i = 0; i < numberOfFields / 2; i++)
             {
                 sources[i] = new BitmapImage();
                 sources[i].BeginInit();
@@ -91,7 +92,7 @@ namespace MemoryGameExample.ViewModels
                 sources[i].EndInit();
 
             }
-            for (int i = numberOfFields/2; i < numberOfFields; i++)
+            for (int i = numberOfFields / 2; i < numberOfFields; i++)
             {
                 sources[i] = new BitmapImage();
                 sources[i].BeginInit();
@@ -109,7 +110,7 @@ namespace MemoryGameExample.ViewModels
             }
         }
 
-        public async void PlayMove(object p)
+        private async void PlayMove(object p)
         {
             if (!twoFieldsOpened)
             {
@@ -122,50 +123,34 @@ namespace MemoryGameExample.ViewModels
                         twoFieldsOpened = true;
                         Task wait = Task.Delay(timeDelay);
                         await wait;
-
-                        if (!images[i].Source.ToString().Equals(images[(int)p - 1].Source.ToString()))
-                        {
-                            images[i].Visibility = System.Windows.Visibility.Collapsed;
-                            images[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
-                            twoFieldsOpened = false;
-                            moves++;
-                            mainWindow.Moves.Text = moves.ToString();
-
-                        }
-                        else
+                        images[i].Visibility = System.Windows.Visibility.Collapsed;
+                        images[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
+                        twoFieldsOpened = false;
+                        moves++;
+                        mainWindow.Moves.Text = moves.ToString();
+                        if (images[i].Source.ToString().Equals(images[(int)p - 1].Source.ToString()))
                         {
                             buttons[i].Visibility = System.Windows.Visibility.Collapsed;
                             buttons[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
-                            images[i].Visibility = System.Windows.Visibility.Collapsed;
-                            images[(int)p - 1].Visibility = System.Windows.Visibility.Collapsed;
-                            twoFieldsOpened = false;
-                            moves++;
-                            mainWindow.Moves.Text = moves.ToString();
                             if (End())
                             {
                                 Highscores highscore = new Model.Highscores();
                                 highscore.Name = "Player";
                                 highscore.Time = int.Parse(mainWindow.Time.Text);
                                 highscore.Moves = int.Parse(mainWindow.Moves.Text);
-                                using (HighscoresContext db = new HighscoresContext())
-                                {
-                                    db.Highscores.Add(highscore);                                  
+                                using (HighscoresContext db = new HighscoresContext()) {
+                                    db.Highscores.Add(highscore);
                                     db.SaveChanges();
-                                    var highscoresOrdered = db.Highscores.OrderBy(x => x.Time).ThenBy(x => x.Moves).
-                                        Take(scoresToShow).ToList();
-                                    if (highscoresOrdered.Contains(highscore))
+                                    if (db.Highscores.OrderBy(x=>x.Time).ThenBy(x=>x.Moves).Take(3).ToList().Contains(highscore))
                                     {
                                         EnterHighscore eh = new EnterHighscore(highscore);
                                         eh.ShowDialog();
                                     }
                                 }
-
+                                
+                                
                                 dispatcherTimer.Stop();
                                 dispatcherTimer.IsEnabled = false;
-
-
-
-
                             }
                         }
 
@@ -189,7 +174,7 @@ namespace MemoryGameExample.ViewModels
                 return move;
             }
         }
-        private void MoveExecute(object parameter)
+        public void MoveExecute(object parameter)
         {
             if (!End())
             {
@@ -249,7 +234,7 @@ namespace MemoryGameExample.ViewModels
 
 
         }
-        private bool CanMoveExecute()
+        public bool CanMoveExecute()
         {
             return true;
         }
@@ -267,8 +252,13 @@ namespace MemoryGameExample.ViewModels
             }
         }
 
-        public void NewGameExecute()
+        public async void NewGameExecute()
         {
+            if (twoFieldsOpened)
+            {
+                Task wait = Task.Delay(timeDelay);
+                await wait;
+            }
             dispatcherTimer.Stop();
             StartGame();
         }

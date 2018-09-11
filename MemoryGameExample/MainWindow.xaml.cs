@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using MemoryGameExample.ViewModels;
 using System.ComponentModel;
+
 namespace MemoryGameExample
 {
     /// <summary>
@@ -22,18 +23,11 @@ namespace MemoryGameExample
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             
             InitializeComponent();
             this.DataContext = new MainWindowViewModel(this);
-        }
-
-        
-
-       
-         
-     
+        }   
     }
 }

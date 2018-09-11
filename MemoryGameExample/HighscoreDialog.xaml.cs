@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MemoryGameExample.ViewModels;
 using System.ComponentModel;
+
 namespace MemoryGameExample
 {
     /// <summary>
